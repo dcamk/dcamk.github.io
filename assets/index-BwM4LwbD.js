@@ -187,8 +187,8 @@ src-tauri/gnome-extension/ extensão do cursor`,{label:`Estrutura de pastas`})}`
   </section>
 
   ${$(`previa`,`<header class="sec-head" data-reveal>
-      <h2 data-item>Prévia ao vivo</h2>
-      <p data-item>Esta é a interface de verdade do Lumo, rodando no seu navegador. Clique na pílula, troque de aba, peça algo à IA ou arraste um arquivo. Os dados são de exemplo e as respostas são roteiros prontos: nada sai da sua máquina e nenhuma chave de API é pedida.</p>
+      <h2 data-item>Painel de ferramentas do programa</h2>
+      <p data-item>Tarefas, foco, IA, e-mail, sistema, terminal, estilo e configurações reunidos num só painel. Clique na pílula, troque de aba, peça algo à IA ou arraste um arquivo.</p>
     </header>
     ${it()}`,`sec-preview`)}
 
