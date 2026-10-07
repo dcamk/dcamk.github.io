@@ -1,10 +1,10 @@
 // Novidades do Lumo: mostra a versão mais recente publicada no GitHub (dcamk/lumo).
-// Usa a última Release; se não houver, a última tag + mensagem do commit.
+// Mostra só "Nova versão" e o número (última Release; se não houver, a última tag).
 // O resultado fica em cache por 1 h para não estourar o limite da API pública.
 (function () {
   var REPO = 'dcamk/lumo';
   var API = 'https://api.github.com/repos/' + REPO;
-  var KEY = 'lumo.novidades';
+  var KEY = 'lumo.novidades.v2';
   var TTL = 60 * 60 * 1000;
   var info = null;
   var pending = null;
@@ -23,25 +23,12 @@
     } catch (e) {}
     return getJSON(API + '/releases/latest')
       .then(function (r) {
-        return {
-          v: r.tag_name,
-          titulo: (r.name || '').replace(/^Lumo\s+v?[\d.]+\s*[:·—-]?\s*/i, ''),
-          data: r.published_at,
-          url: r.html_url,
-        };
+        return { v: r.tag_name, url: r.html_url };
       })
       .catch(function () {
         return getJSON(API + '/tags?per_page=1').then(function (tags) {
           if (!tags.length) throw new Error('sem tags');
-          return getJSON(API + '/commits/' + tags[0].commit.sha).then(function (c) {
-            var linha = (c.commit.message || '').split('\n')[0];
-            return {
-              v: tags[0].name,
-              titulo: linha.replace(/^Lumo\s+v?[\d.]+\s*[:·—-]?\s*/i, ''),
-              data: c.commit.committer.date,
-              url: 'https://github.com/' + REPO + '/commit/' + tags[0].commit.sha,
-            };
-          });
+          return { v: tags[0].name, url: 'https://github.com/' + REPO + '/releases/tag/' + tags[0].name };
         });
       })
       .then(function (d) {
@@ -58,14 +45,11 @@
 
   function render(el) {
     if (!info || el.dataset.ok) return;
-    var data = '';
-    try { data = new Date(info.data).toLocaleDateString('pt-BR'); } catch (e) {}
     el.innerHTML =
       '<a href="' + esc(info.url) + '" rel="noopener" target="_blank">' +
       '<span class="lumo-news-dot" aria-hidden="true"></span>' +
-      '<span class="lumo-news-tag">Novo · ' + esc(info.v) + '</span>' +
-      '<span class="lumo-news-t">' + esc(info.titulo || 'Nova versão disponível') + '</span>' +
-      (data ? '<span class="lumo-news-d">' + esc(data) + '</span>' : '') +
+      '<span class="lumo-news-t">Nova versão</span>' +
+      '<span class="lumo-news-tag">' + esc(info.v) + '</span>' +
       '</a>';
     el.hidden = false;
     el.dataset.ok = '1';
