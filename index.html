@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR" data-palette="safira" data-font="sans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lumo · assistente de área de trabalho para Linux</title>
+    <meta name="description" content="Uma pílula preta no topo da tela com um personagem animado. Tarefas com lembretes, Pomodoro, terminal, e-mail, painel do sistema e uma IA com equipe de agentes. Funciona sem chave de API." />
+    <meta name="theme-color" content="#070b14" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/img/favicon-180.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Lumo" />
+    <meta property="og:title" content="Lumo · assistente de área de trabalho para Linux" />
+    <meta property="og:description" content="Uma pílula preta no topo da tela com um personagem animado e uma IA com equipe de agentes. Funciona sem chave de API." />
+    <meta property="og:image" content="/img/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="O painel do Lumo aberto na paleta Safira, com o personagem e a aba Sistema." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <script>
+      // Paleta salva antes do primeiro quadro (sem piscar a padrão), como o store.ts do Lumo
+      (function () {
+        var C = {
+          grafite: ['#0d0f13', '#13161b', '#0a0c0f', '#1a1e25', '#e8ecf2', '#8a94a3', '#8fa6c4', '#6a86ad', '#b7c4d6', '#0b1018', 'sans'],
+          safira: ['#070b14', '#0d1422', '#060a12', '#131c30', '#e6edf8', '#7d8aa3', '#5aa9ff', '#3b82d6', '#8fd3ff', '#04101f', 'sans'],
+          indigo: ['#09070f', '#110e1b', '#070509', '#191428', '#ece9f7', '#8d86a6', '#9b8cff', '#7566e0', '#c4b9ff', '#0c0818', 'sans'],
+          ambar: ['#0c0904', '#16110a', '#080603', '#201910', '#f3ebdd', '#9a8c75', '#f0a64a', '#cf8530', '#ffd08a', '#1a0f02', 'sans'],
+          noir: ['#030303', '#0b0b0c', '#020202', '#131315', '#ededed', '#7c7c82', '#e5484d', '#b83a3f', '#ff8a8e', '#fff4f4', 'sans'],
+          matrix: ['#000000', '#04100a', '#010603', '#07180f', '#c9ffd9', '#4f9a69', '#00ff66', '#00c250', '#7dffb0', '#001a08', 'mono'],
+        };
+        var id = 'safira';
+        try {
+          var s = JSON.parse(localStorage.getItem('lumo.site') || '{}');
+          if (C[s.palette]) id = s.palette;
+          var q = new URLSearchParams(location.search).get('paleta');
+          if (C[q]) id = q;
+        } catch (e) {}
+        var c = C[id], r = document.documentElement, n = ['shell', 'surface', 'surface-2', 'surface-3', 'text', 'muted', 'accent', 'accent-2', 'accent-3', 'on-accent'];
+        for (var i = 0; i < n.length; i++) r.style.setProperty('--' + n[i], c[i]);
+        r.style.setProperty('--mood', c[6]);
+        r.style.setProperty('--accent-solid', id === 'noir' ? c[7] : c[6]);
+        r.dataset.palette = id;
+        r.dataset.font = c[10];
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BwM4LwbD.js"></script>
+    <script defer src="/assets/novidades.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/anime-CxZn2RuW.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-Q_j1r442.css">
+  </head>
+  <body>
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+    <!-- Luz e partículas: um só relógio e um só motor (src/core/clock.ts, src/particles/engine.ts) -->
+    <div class="desk" aria-hidden="true">
+      <div class="lumo-ambient"></div>
+      <div class="spotlight"></div>
+    </div>
+    <canvas id="particles" aria-hidden="true"></canvas>
+
+    <!-- Navegação = a pílula do Lumo, encostada no topo da tela -->
+    <header class="pill-nav" id="pill-nav">
+      <div class="pill-shell lumo-shell" data-anim="shell">
+        <span class="lumo-ambient pill-ambient" aria-hidden="true"></span>
+        <div class="pill-row">
+          <a class="pill-home" href="/" data-link aria-label="Lumo, página inicial">
+            <span class="pill-char" data-anim="char"><span class="lumo-aura" aria-hidden="true"></span><canvas aria-hidden="true"></canvas></span>
+            <span class="pill-word">Lumo</span>
+          </a>
+          <nav class="pill-links" aria-label="Seções">
+            <a href="/recursos" data-link>Recursos</a>
+            <a href="/paletas" data-link>Paletas</a>
+            <a href="/personagem" data-link>Personagem</a>
+            <a href="/ia" data-link>IA</a>
+            <a href="/documentacao" data-link>Documentação</a>
+            <a href="/instalar" data-link>Instalar</a>
+          </nav>
+          <button class="pill-btn pill-palette" type="button" aria-expanded="false" aria-controls="palette-picker" title="Trocar a paleta do site">
+            <span class="swatch" aria-hidden="true"></span><span class="sr-only">Paleta do site: </span><span class="pill-palette-name">Safira</span>
+          </button>
+          <button class="pill-btn pill-menu" type="button" aria-expanded="false" aria-controls="pill-links-mobile">Menu</button>
+        </div>
+        <div class="pill-drawer">
+          <nav class="drawer-links" id="pill-links-mobile" aria-label="Seções" hidden>
+            <a class="lumo-nav" href="/" data-link>Início</a>
+            <a class="lumo-nav" href="/recursos" data-link>Recursos</a>
+            <a class="lumo-nav" href="/paletas" data-link>Paletas</a>
+            <a class="lumo-nav" href="/personagem" data-link>Personagem</a>
+            <a class="lumo-nav" href="/ia" data-link>IA</a>
+            <a class="lumo-nav" href="/documentacao" data-link>Documentação</a>
+            <a class="lumo-nav" href="/instalar" data-link>Instalar</a>
+          </nav>
+          <div class="palette-picker" id="palette-picker" role="group" aria-label="Paleta do site" hidden></div>
+        </div>
+        <span class="lumo-rim" aria-hidden="true"></span>
+      </div>
+    </header>
+
+    <main id="conteudo" tabindex="-1">
+      <noscript>
+        <section class="page-head">
+          <h1>Lumo</h1>
+          <p>Assistente de área de trabalho para Linux: uma pílula preta no topo da tela com um personagem animado. Funciona sem chave de API.</p>
+          <p><a href="https://github.com/dcamk/lumo">Ver no GitHub</a></p>
+        </section>
+      </noscript>
+    </main>
+
+    <footer class="site-foot">
+      <span class="lumo-rim" aria-hidden="true"></span>
+      <p>Lumo é software livre sob a licença MIT. Feito com Tauri 2, React, Vite, Tailwind e anime.js; inspirado no Coucou.</p>
+      <p><a href="https://github.com/dcamk/lumo">github.com/dcamk/lumo</a></p>
+    </footer>
+
+    <!-- Personagem 3D: uma camada fixa que acompanha a navegação -->
+    <div id="stage" class="stage" aria-hidden="true"><span class="lumo-aura"></span><span class="lumo-flare"></span><div class="stage-gl"></div></div>
+
+    <!-- Casca da transição de página (shellTo) -->
+    <div id="morph" class="morph lumo-shell" aria-hidden="true"><span class="lumo-rim"></span></div>
+    <p id="route-status" class="sr-only" aria-live="polite"></p>
+
+  </body>
+</html>
