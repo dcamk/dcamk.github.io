@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Coloquei o Claude para estudar</title>
+<style>
+:root{--bg:#0B0B10;--y:#FFD60A;--r:#FF4560;--g:#2DD4A0;--o:#E8825A;--card:#15151d;--line:#2a2a3a;--mut:#8b8ea0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;background:#000;overflow:hidden;font-family:'Inter',sans-serif}
+#stage{position:relative;width:1080px;height:1920px;background:var(--bg);overflow:hidden;color:#fff}
+.abs{position:absolute}
+.scene{position:absolute;inset:0;display:none}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:60px 60px}
+.blob{position:absolute;width:900px;height:900px;border-radius:50%;filter:blur(140px);opacity:.35}
+#prog{position:absolute;left:60px;top:64px;width:960px;height:6px;border-radius:3px;background:rgba(255,255,255,.12);z-index:50}
+#progf{display:block;height:100%;width:0;border-radius:3px;background:var(--y)}
+.hl{font-size:128px;font-weight:900;line-height:1;letter-spacing:-.03em;white-space:nowrap}
+.y{color:var(--y)} .g{color:var(--g)} .r{color:var(--r)}
+.win{background:#13131b;border:2px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.tb{height:64px;background:#1c1c27;display:flex;align-items:center;padding:0 24px;gap:12px}
+.tb i{width:16px;height:16px;border-radius:50%;background:#ff5f57;display:block}
+.tb i:nth-child(2){background:#febc2e}.tb i:nth-child(3){background:#28c840}
+.addr{margin-left:20px;flex:1;height:36px;border-radius:18px;background:#0f0f15;color:#9aa0b4;font-size:22px;display:flex;align-items:center;padding:0 18px}
+.ythead{height:80px;display:flex;align-items:center;gap:16px;padding:0 28px}
+.ytlogo{width:56px;height:40px;border-radius:12px;background:#f03;position:relative;flex:none}
+.ytlogo:after{content:"";position:absolute;left:22px;top:11px;border-left:16px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+.sbox{flex:1;height:56px;border:2px solid #34344a;border-radius:28px;background:#0f0f15;font-size:28px;padding:0 24px;display:flex;align-items:center;white-space:nowrap}
+.rc{height:96px;margin:0 28px 8px;display:flex;gap:18px;align-items:center;border-radius:14px;border:3px solid transparent;padding:6px;position:relative}
+.th{width:150px;height:84px;border-radius:10px;flex:none}
+.ln{height:16px;border-radius:8px;background:#2c2c3c;margin:7px 0}
+.pill{display:inline-flex;align-items:center;gap:12px;padding:12px 26px;border-radius:40px;font-weight:800;font-size:28px;white-space:nowrap}
+.mono{font-family:'DejaVu Sans Mono',monospace}
+.card{background:var(--card);border:2px solid var(--line);border-radius:28px}
+.cap{position:absolute;left:50px;width:980px;top:1300px;text-align:center;font-size:52px;font-weight:800;line-height:1.18;letter-spacing:-.01em;z-index:40;text-shadow:0 4px 18px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.9)}
+.cap span{display:inline;white-space:pre-wrap}
+.cap .k{color:var(--y)}
+.chk{width:60px;height:60px;border-radius:50%;border:3px solid #444;display:flex;align-items:center;justify-content:center;flex:none}
+.tick{width:30px;height:16px;border-left:7px solid #0b0b10;border-bottom:7px solid #0b0b10;transform:rotate(-45deg) translate(2px,-3px)}
+#cur{position:absolute;left:0;top:0;width:54px;height:54px;z-index:60;display:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6))}
+.badge{width:70px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;flex:none}
+</style></head><body>
+<div id="stage">
+<div id="bg1" class="blob" style="background:#6a4cff;left:-300px;top:-200px"></div>
+<div id="bg2" class="blob" style="background:#E8825A;right:-400px;bottom:-100px"></div>
+<div class="grid"></div>
+<div id="prog"><i id="progf"></i></div>
+
+<!-- S1 GANCHO -->
+<section class="scene" id="s1">
+ <div id="h1a" class="hl abs" style="left:60px;top:150px">O CLAUDE</div>
+ <div id="h1b" class="hl abs" style="left:60px;top:290px">ASSISTIU.</div>
+ <div id="h1c" class="hl abs y" style="left:60px;top:430px">EU NÃO.</div>
+ <div id="b1" class="win abs" style="left:60px;top:640px;width:960px;height:600px">
+  <div class="tb"><i></i><i></i><i></i><div class="addr">youtube.com</div></div>
+  <div class="ythead"><div class="ytlogo"></div><div class="sbox"><span id="s1q"></span></div></div>
+  <div id="s1res" style="padding-top:12px"></div>
+  <div id="s1badge" class="pill abs" style="right:24px;top:84px;background:rgba(232,130,90,.18);border:2px solid var(--o);color:var(--o);font-size:22px;padding:8px 18px"><b id="s1dot" style="width:14px;height:14px;border-radius:50%;background:var(--o);display:block"></b>Claude no controle</div>
+ </div>
+</section>
+
+<!-- S2 PROBLEMA -->
+<section class="scene" id="s2">
+ <div id="s2title" class="hl abs" style="left:60px;top:150px;font-size:104px">40 min de vídeo</div>
+ <div id="s2timer" class="abs mono" style="left:60px;top:290px;font-size:110px;font-weight:700;color:var(--r)">00:00</div>
+ <div id="s2feedwrap" class="abs card" style="left:60px;top:450px;width:960px;height:560px;overflow:hidden"><div id="s2feed" style="padding:16px"></div></div>
+ <div id="s2tags"></div>
+ <div id="s2ok" class="abs" style="left:60px;top:560px;width:960px;text-align:center;font-size:130px;font-weight:900;line-height:1.05;letter-spacing:-.03em;color:var(--g)">SÓ O QUE<br>PRESTA</div>
+ <div id="s2bar" class="abs" style="left:60px;top:1060px;width:960px;height:64px;border-radius:14px;overflow:hidden;background:#222"></div>
+ <div class="abs" style="left:60px;top:1140px;width:960px;display:flex;gap:40px;font-size:28px;font-weight:700;color:#cfd2e0">
+   <span><b style="display:inline-block;width:20px;height:20px;border-radius:5px;background:var(--r);vertical-align:-2px;margin-right:10px"></b>propaganda e enrolação</span>
+   <span><b style="display:inline-block;width:20px;height:20px;border-radius:5px;background:var(--g);vertical-align:-2px;margin-right:10px"></b>conteúdo</span></div>
+</section>
+
+<!-- S3 VIRADA -->
+<section class="scene" id="s3">
+ <div id="term" class="win abs" style="left:60px;top:170px;width:960px;height:430px">
+  <div class="tb"><i></i><i></i><i></i><div class="addr mono" style="font-size:20px">claude code</div></div>
+  <div class="mono" style="padding:34px 36px;font-size:36px;line-height:1.5;color:#e6e6f0">
+    <div><span style="color:var(--o)">&gt;</span> <span id="t3a"></span></div>
+    <div style="padding-left:40px"><span id="t3b"></span></div>
+    <div id="t3c" style="margin-top:22px;color:var(--g);font-size:32px"></div>
+  </div></div>
+ <div class="abs mono" style="left:60px;top:680px;font-size:28px;color:var(--mut);letter-spacing:.2em" id="s3lab">SKILL CRIADA</div>
+ <div id="s3name" class="abs mono y" style="left:60px;top:730px;font-size:74px;font-weight:700;white-space:nowrap"></div>
+ <div id="s3stamp" class="abs" style="left:660px;top:850px;font-size:54px;font-weight:900;color:var(--g);border:6px solid var(--g);border-radius:18px;padding:6px 26px;letter-spacing:.04em">GRÁTIS</div>
+ <div id="s3flow" class="abs" style="left:60px;top:1010px;width:960px"></div>
+</section>
+
+<!-- S4 NAVEGA -->
+<section class="scene" id="s4">
+ <div id="s4inc" class="pill abs" style="left:60px;top:150px;background:#2a2144;color:#c9b8ff;border:2px solid #5b46a8">
+  <svg width="40" height="30" viewBox="0 0 40 30"><path d="M3 12h34M9 12l3-9h16l3 9" fill="none" stroke="#c9b8ff" stroke-width="3" stroke-linejoin="round"/><circle cx="11" cy="21" r="5" fill="none" stroke="#c9b8ff" stroke-width="3"/><circle cx="29" cy="21" r="5" fill="none" stroke="#c9b8ff" stroke-width="3"/></svg>JANELA ANÔNIMA</div>
+ <div id="s4chip" class="pill abs" style="left:420px;top:150px;background:rgba(255,214,10,.12);border:2px solid var(--y);color:var(--y)">sem login · sem API</div>
+ <div id="b4" class="win abs" style="left:60px;top:250px;width:960px;height:520px;border-color:#5b46a8">
+  <div class="tb" style="background:#251d3d"><i></i><i></i><i></i><div class="addr">youtube.com</div></div>
+  <div id="b4yt"><div class="ythead"><div class="ytlogo"></div><div class="sbox"><span id="s4q"></span></div></div>
+  <div id="s4res" style="padding-top:12px"></div></div>
+  <div id="b4tr" class="abs mono" style="left:0;top:64px;width:100%;height:456px;background:#0f0f15;padding:20px 28px;overflow:hidden"><div id="b4trin" style="font-size:25px;line-height:1.5;color:#cfd2e0"></div></div>
+ </div>
+ <div id="s4steps"></div>
+</section>
+
+<!-- S5 LIMPA -->
+<section class="scene" id="s5">
+ <div id="s5lab" class="pill abs" style="left:60px;top:150px;background:#2c1a22;color:var(--r);border:2px solid var(--r)">TRANSCRIÇÃO BRUTA</div>
+ <div id="s5panel" class="abs card" style="left:60px;top:240px;width:960px;padding:16px 20px;overflow:hidden"><div id="s5lines"></div></div>
+ <div id="s5vid" class="abs card" style="left:60px;top:260px;width:960px;height:640px;overflow:hidden">
+   <div style="height:430px;background:linear-gradient(135deg,#5b1d2e,#2b1020);display:flex;align-items:center;justify-content:center;font-size:60px;font-weight:900;color:#ff9aab;text-align:center;line-height:1.1;letter-spacing:.02em">USE O CUPOM<br>100% COMERCIAL</div>
+   <div style="padding:26px 34px"><div class="ln" style="width:80%;height:22px"></div><div class="ln" style="width:55%;height:22px"></div></div>
+   <div id="s5stamp" class="abs" style="left:130px;top:200px;font-size:100px;font-weight:900;color:var(--r);border:10px solid var(--r);border-radius:22px;padding:0 30px;background:rgba(11,11,16,.8);letter-spacing:.03em">DESCARTADO</div></div>
+ <div id="s5stats" class="abs card" style="left:60px;top:960px;width:960px;height:250px;padding:30px 40px">
+   <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:36px;font-weight:700;color:#cfd2e0">propaganda removida</span><span id="s5pct" class="mono" style="font-size:80px;font-weight:700;color:var(--g)">0%</span></div>
+   <div style="height:18px;background:#262634;border-radius:9px;margin:14px 0 22px"><i id="s5pb" style="display:block;height:100%;width:0;border-radius:9px;background:var(--g)"></i></div>
+   <div style="display:flex;justify-content:space-between;font-size:32px;color:#cfd2e0"><span>itens extraídos: <b id="s5it" class="mono" style="color:var(--y)">0</b></span><span style="color:var(--mut);font-size:24px">números de exemplo</span></div></div>
+</section>
+
+<!-- S6 RANQUEIA -->
+<section class="scene" id="s6">
+ <div id="s6file" class="abs card" style="left:60px;top:150px;width:960px;height:290px;overflow:hidden">
+  <div style="height:56px;background:#1c1c27;display:flex;align-items:center;padding:0 26px;gap:14px;font-size:24px;color:#cfd2e0" class="mono"><b style="width:18px;height:22px;border:3px solid var(--y);border-radius:3px;display:block"></b>projetos.md</div>
+  <div class="mono" style="padding:20px 30px;font-size:30px;line-height:1.55;color:#e6e6f0"><div id="p0" style="color:var(--y)"># Meus projetos</div><div id="p1">- newsletter de IA</div><div id="p2">- curso de prompts</div><div id="p3">- automação de vendas</div></div></div>
+ <div id="s6head" class="abs" style="left:60px;top:470px;width:960px;display:flex;justify-content:space-between;font-size:26px;font-weight:800;color:var(--mut);letter-spacing:.06em;padding:0 8px"><span>NOTA · ITEM APRENDIDO</span><span>MIN · OK?</span></div>
+ <div id="s6rows"></div>
+ <div id="s6leg" class="pill abs" style="left:60px;top:1160px;background:rgba(45,212,160,.12);border:2px solid var(--g);color:var(--g);font-size:26px">relevância 3 = aplicável já</div>
+</section>
+
+<!-- S7 ANTES x DEPOIS -->
+<section class="scene" id="s7">
+ <div id="s7a" class="abs card" style="left:60px;top:150px;width:960px;height:480px;padding:30px 40px">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:34px;font-weight:900;color:var(--mut);letter-spacing:.08em">SEM A SKILL</span><span class="pill" style="background:#2c1a22;color:var(--r);font-size:24px;padding:8px 20px">sem fonte</span></div>
+  <div id="s7at" style="margin-top:26px;font-size:34px;line-height:1.5;color:#8b8ea0"></div></div>
+ <div id="s7b" class="abs card" style="left:60px;top:660px;width:960px;height:560px;padding:26px 40px;border-color:var(--g);box-shadow:0 0 80px rgba(45,212,160,.25)">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:34px;font-weight:900;color:var(--g);letter-spacing:.08em">COM A SKILL</span><span id="s7c1" class="pill mono" style="background:rgba(45,212,160,.15);color:var(--g);font-size:22px;padding:8px 18px">SKILL.md · máx. 1.500 tokens</span></div>
+  <div id="s7bt" class="mono" style="margin-top:20px;font-size:29px;line-height:1.55;color:#e6e6f0"></div></div>
+ <div id="s7vs" class="abs" style="left:490px;top:608px;width:100px;height:100px;border-radius:50%;background:var(--y);color:#000;font-weight:900;font-size:40px;display:flex;align-items:center;justify-content:center;z-index:5">VS</div>
+ <div id="s7c2" class="pill abs" style="left:60px;top:1236px;background:rgba(255,214,10,.14);border:2px solid var(--y);color:var(--y);font-size:26px;display:none">com fonte e minuto</div>
+</section>
+
+<!-- S8 CUSTO -->
+<section class="scene" id="s8">
+ <div class="abs" style="left:0;top:170px;width:1080px;text-align:center;font-size:44px;font-weight:800;color:var(--mut);letter-spacing:.2em">CUSTO DA NAVEGAÇÃO</div>
+ <div id="s8big" class="abs" style="left:0;top:250px;width:1080px;text-align:center;font-size:330px;font-weight:900;letter-spacing:-.04em;color:var(--g);line-height:1.1">R$ 0</div>
+ <div id="s8list" class="abs" style="left:150px;top:700px;width:780px"></div>
+ <div id="s8note" class="abs card" style="left:60px;top:1060px;width:960px;padding:32px 40px;text-align:center;font-size:40px;font-weight:700;line-height:1.3;border-color:var(--o)">no plano do Claude,<br><span class="y">nem cobra por token</span></div>
+</section>
+
+<!-- S9 CTA -->
+<section class="scene" id="s9">
+ <div id="s9a" class="hl abs" style="left:60px;top:170px;font-size:170px">QUER A</div>
+ <div id="s9b" class="hl abs y" style="left:60px;top:340px;font-size:170px">SKILL?</div>
+ <div id="s9c" class="abs card" style="left:60px;top:640px;width:960px;height:150px;border-radius:75px;border-color:#555;display:flex;align-items:center;padding:0 30px;gap:24px">
+   <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--o),var(--y));flex:none"></div>
+   <div id="s9t" class="mono" style="font-size:70px;font-weight:700;flex:1"></div>
+   <div id="s9send" style="width:90px;height:90px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center"><svg width="46" height="46" viewBox="0 0 24 24"><path d="M12 20V6M5 12l7-7 7 7" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+ <div id="s9d" class="abs y" style="left:0;top:850px;width:1080px;text-align:center;font-size:100px;font-weight:900;letter-spacing:-.02em">COMENTA “SKILL”</div>
+ <div id="s9e" class="abs" style="left:0;top:990px;width:1080px;text-align:center;font-size:48px;font-weight:700;color:#cfd2e0">que eu te mando</div>
+ <svg id="s9arr" class="abs" style="left:800px;top:1090px" width="200" height="200" viewBox="0 0 200 200"><path d="M40 20 C 40 120, 90 150, 150 160" fill="none" stroke="#FFD60A" stroke-width="12" stroke-linecap="round"/><path d="M120 120 L160 162 L108 180" fill="none" stroke="#FFD60A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</section>
+
+<svg id="cur" viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z" fill="#fff" stroke="#000" stroke-width="1.6" stroke-linejoin="round"/></svg>
+<div id="cap" class="cap"></div>
+</div>
+
+<script>
+const E=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const bo=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const lerp=(a,b,x)=>a+(b-a)*x;
+const mmss=s=>{s=Math.round(s);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+function tf(el,x=0,y=0,s=1,r=0){el.style.transform=`translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`}
+function pop(el,t,a,o={}){const d=o.d||.45,p=seg(t,a,a+d);el.style.opacity=clamp(p*3);tf(el,o.x||0,(o.y||0)*(1-eo(p)),lerp(o.from??.6,1,bo(p)),o.r||0)}
+function slide(el,t,a,dy=50,d=.5){const p=eo(seg(t,a,a+d));el.style.opacity=p;tf(el,0,dy*(1-p))}
+function typ(el,s,t,a,cps,caret=true){const n=clamp(Math.floor((t-a)*cps),0,s.length);const typing=t>=a&&n<s.length;el.textContent=(t<a?'':s.slice(0,n))+(caret&&(typing||(t>=a&&Math.floor(t*2)%2==0&&n==s.length))?'▌':'')}
+const hue=i=>[[330,260],[210,170],[30,350],[150,200],[270,310],[50,20]][i%6];
+const thumb=i=>{const [a,b]=hue(i);return `background:linear-gradient(135deg,hsl(${a} 55% 38%),hsl(${b} 60% 22%))`};
+const rcard=(i,w1=70,w2=45)=>`<div class="rc" id="rc${i}"><div class="th" style="${thumb(i)}"></div><div style="flex:1"><div class="ln" style="width:${w1}%"></div><div class="ln" style="width:${w2}%;opacity:.6"></div></div></div>`;
+
+/* ---- build DOM ---- */
+E('s1res').innerHTML=[0,1,2,3].map(i=>rcard(i+1,75-i*8,50)).join('');
+E('s4res').innerHTML=[0,1,2].map(i=>rcard(i+2,72-i*7,48)).join('');
+// S2 feed
+E('s2feed').innerHTML=Array.from({length:30},(_,i)=>`<div style="height:140px;display:flex;gap:20px;align-items:center;border-bottom:1px solid #22222e"><div style="width:220px;height:124px;border-radius:12px;flex:none;position:relative;${thumb(i)}"><i style="position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.8);font-style:normal;font-size:20px;padding:2px 8px;border-radius:6px">${20+(i*7)%40}:${String((i*13)%60).padStart(2,'0')}</i></div><div style="flex:1"><div class="ln" style="width:90%;height:20px"></div><div class="ln" style="width:60%;height:20px;opacity:.6"></div></div></div>`).join('');
+const TAGS=[['USE MEU CUPOM',.7,90,40,-6],['DEIXA O LIKE',1.4,520,150,5],['SE INSCREVE',2.1,120,290,-4],['PATROCINADO',2.8,520,400,6]];
+E('s2tags').innerHTML=TAGS.map((g,i)=>`<div id="tg${i}" class="pill abs" style="left:${60+g[2]}px;top:${450+g[3]}px;background:var(--r);color:#fff;font-size:40px;padding:14px 34px;box-shadow:0 10px 30px rgba(255,69,96,.5)">${g[0]}</div>`).join('');
+const SEGS=[['r',4],['c',1],['r',6],['c',.5],['r',5],['c',1],['r',7],['c',.5],['r',8],['c',1],['r',5],['c',1]];
+E('s2bar').innerHTML=SEGS.map((s,i)=>`<div id="sg${i}" class="abs" style="top:0;height:100%;background:${s[0]=='c'?'var(--g)':'var(--r)'};opacity:${s[0]=='c'?1:.85};border-right:2px solid #0B0B10"></div>`).join('');
+// S3 flow
+E('s3flow').innerHTML=['pesquisa','limpa','ranqueia','você aprova'].map((w,i)=>`<span id="fl${i}" class="pill" style="background:#1d1d29;border:2px solid var(--line);margin:0 8px 14px 0;font-size:34px">${i+1}  ${w}</span>`).join('');
+// S4 steps
+const ST=['Busca como usuário','Escolhe os vídeos','Pega a transcrição'];
+E('s4steps').innerHTML=ST.map((s,i)=>`<div id="st${i}" class="abs card" style="left:60px;top:${810+i*135}px;width:960px;height:116px;display:flex;align-items:center;gap:26px;padding:0 34px"><div class="mono" style="font-size:54px;font-weight:700;color:var(--y);width:50px">${i+1}</div><div style="font-size:46px;font-weight:800;flex:1">${s}</div><div id="sk${i}" class="chk"><div class="tick" style="opacity:0"></div></div></div>`).join('');
+const TRS=['02:14  primeiro, defina o papel','02:31  depois dê contexto e exemplo','03:05  peça o formato da resposta','03:40  use delimitadores ###','04:12  teste e ajuste o prompt','04:58  salve como template','05:20  erros comuns: prompt vago','05:47  sempre cite a fonte','06:10  revise antes de enviar','06:44  ...'];
+E('b4trin').innerHTML=TRS.concat(TRS).map(x=>`<div>${x}</div>`).join('');
+// S5 lines
+const LN=[['c','Hoje vou mostrar como escrever prompts melhores.'],['a','Esse vídeo é patrocinado pela marca X.'],['c','Primeiro, defina o papel do modelo.'],['a','Use o cupom CUPOM10 e ganhe desconto.'],['c','Depois, dê contexto e um exemplo.'],['a','Se inscreve e ativa o sininho!'],['c','Por fim, peça o formato da resposta.']];
+E('s5lines').innerHTML=LN.map((l,i)=>`<div id="ln${i}" style="height:96px;overflow:hidden;position:relative"><div id="lt${i}" style="font-size:35px;font-weight:600;line-height:96px;padding:0 18px;border-radius:14px;height:88px;margin:4px 0;white-space:nowrap">${l[1]}<b id="lb${i}" class="pill abs" style="right:14px;top:22px;background:var(--r);font-size:20px;padding:5px 14px;line-height:1.2;opacity:0">PROPAGANDA</b></div></div>`).join('');
+// S6 rows
+const RW=[['Truque de imagem no Midjourney',1,'11:30'],['Few-shot com 2 exemplos',2,'07:05'],['Defina papel + contexto',3,'02:14'],['Use delimitadores ###',3,'13:02'],['Peça o formato da resposta',3,'04:40']];
+const FINAL=[4,3,0,2,1]; // final slot de cada linha (por índice inicial)
+E('s6rows').innerHTML=RW.map((r,i)=>{const c=r[1]==3?'var(--g)':r[1]==2?'var(--y)':'var(--r)';const bg=r[1]==3?'rgba(45,212,160,.18)':r[1]==2?'rgba(255,214,10,.15)':'rgba(255,69,96,.15)';return `<div id="rw${i}" class="abs card" style="left:60px;top:520px;width:960px;height:108px;display:flex;align-items:center;gap:22px;padding:0 24px;border-radius:22px"><div class="badge" style="background:${bg};color:${c}">${r[1]}</div><div id="rt${i}" style="font-size:33px;font-weight:700;flex:1">${r[0]}</div><div class="mono" style="font-size:26px;color:var(--mut)">${r[2]}</div><div id="rk${i}" class="chk" style="width:54px;height:54px"><div class="tick" style="opacity:0;width:26px;height:13px"></div></div></div>`}).join('');
+// S7 text
+const SKL=[['# prompt-bom','var(--y)'],['## Procedimento',''],['1. Defina papel + contexto',''],['2. Peça o formato da resposta',''],['## Erros comuns',''],['- prompt vago, sem exemplo',''],['## Fonte',''],['youtu.be/…?t=134  (02:14)','var(--g)']];
+E('s7bt').innerHTML=SKL.map((l,i)=>`<div id="sl${i}" style="color:${l[1]||'#e6e6f0'};${l[0][0]=='#'?'font-weight:700':''}">${l[0]}</div>`).join('');
+// S8 list
+E('s8list').innerHTML=['navegação','legendas','scripts'].map((w,i)=>`<div id="cl${i}" style="display:flex;align-items:center;gap:30px;height:100px;font-size:56px;font-weight:800"><div class="chk" style="width:70px;height:70px;background:var(--g);border-color:var(--g)"><div class="tick" style="width:34px;height:18px"></div></div>${w}<span class="mono" style="margin-left:auto;color:var(--g)">R$ 0</span></div>`).join('');
+
+/* ---- captions ---- */
+const CAP=[[0.2,3,'Eu mandei o *Claude* assistir YouTube por mim.'],
+[3,9,'Aprender com vídeo longo toma horas, e metade é *propaganda*, cupom e “deixa o like”.'],
+[9,16,'Então eu criei uma *skill* que faz o Claude estudar por mim e devolver só o que presta.'],
+[16,22,'Ele abre um navegador *anônimo*, sem login e sem API.'],
+[22,30,'Pesquisa como uma pessoa, escolhe os melhores vídeos e pega a *transcrição* de cada um.'],
+[30,37,'Aí ele limpa tudo: corta *patrocínio*, cupom e pedido de inscrição,'],
+[37,42,'e descarta vídeo que é puro *comercial*.'],
+[42,48,'O diferencial: ele ranqueia o que aprendeu pelos *meus projetos*.'],
+[48,55,'Se não serve pra mim, nem entra. E eu *aprovo* item por item.'],
+[55,60,'No fim sai uma *skill compacta*, com os passos e os erros comuns'],
+[60,65,'e o link do *minuto exato* de cada coisa que ele aprendeu.'],
+[65,67.6,'Navegar, legenda e scripts: *custo zero*.'],
+[67.6,70,'No plano do Claude, nem cobra por token.'],
+[70,75,'Quer a skill? Comenta *SKILL* que eu te mando.']];
+const capEl=E('cap');let capIdx=-1;
+function captions(t){
+ const i=CAP.findIndex(c=>t>=c[0]&&t<c[1]);
+ if(i<0){capEl.style.opacity=0;return}
+ if(i!==capIdx){capIdx=i;capEl.innerHTML=CAP[i][2].split(/(\*[^*]+\*)/).filter(Boolean).flatMap(p=>{const k=p[0]=='*';return ((k?p.slice(1,-1):p).match(/\s*\S+\s*/g)||[]).map(w=>`<span class="${k?'k':''}">${w}</span>`)}).join('')}
+ const c=CAP[i],ws=capEl.children,n=ws.length,dur=(c[1]-c[0])*.85;
+ for(let j=0;j<n;j++){ws[j].style.opacity=t>=c[0]+(j/n)*dur?1:.28}
+ const p=seg(t,c[0],c[0]+.2);capEl.style.opacity=p*(1-seg(t,c[1]-.12,c[1]));
+ // sobe a legenda quando a cena pede
+ capEl.style.top=(1300+(1-eo(p))*24)+'px';
+}
+
+/* ---- cursor ---- */
+const CUR=[[0,940,1000],[.7,560,744],[2.35,560,744],[3,380,1000],
+ [21.0,900,780],[21.7,520,344],[23.4,520,344],[24.2,380,468],[24.95,380,572],[25.7,380,676],[26.6,880,820]];
+function cursor(t){
+ const el=E('cur');let vis=(t<3)||(t>=21&&t<26.9);
+ if(!vis){el.style.display='none';return}
+ el.style.display='block';
+ let k=0;while(k<CUR.length-1&&t>=CUR[k+1][0])k++;
+ let a=CUR[k],b=CUR[Math.min(k+1,CUR.length-1)];
+ // não cruza do bloco 1 para o 2
+ const p=a===b||(b[0]-a[0])<=0?1:eio(seg(t,a[0],b[0]));
+ const x=lerp(a[0]==3||k==3?CUR[3][1]:a[1],b[1],p),y=lerp(a[2],b[2],p);
+ const click=[2.35,24.2,24.95,25.7].some(c=>t>=c&&t<c+.2)?.82:1;
+ tf(el,k==3&&t>3?CUR[3][1]:x,k==3&&t>3?CUR[3][2]:y,click);
+}
+
+/* ---- scenes ---- */
+function s1(l){
+ [['h1a',.1],['h1b',.35],['h1c',.65]].forEach(([id,a])=>{const el=E(id),p=seg(l,a,a+.28);
+  const amp=l>a+.28?16*(1-seg(l,a+.28,a+.8)):0;
+  el.style.opacity=clamp(p*4);tf(el,Math.sin(l*75)*amp,Math.cos(l*91)*amp*.6,lerp(1.8,1,eo(p)));});
+ const w=E('b1');const p=eo(seg(l,0,.5));w.style.opacity=p;tf(w,0,80*(1-p),1+.05*seg(l,0,3));
+ typ(E('s1q'),'como criar um bom prompt',l,.5,14);
+ for(let i=1;i<=4;i++)pop(E('rc'+i),l,2.4+i*.1,{d:.3,from:.9,y:30});
+ if(l<2.4)for(let i=1;i<=4;i++)E('rc'+i).style.opacity=0;
+ E('s1dot').style.opacity=.4+.6*Math.abs(Math.sin(l*7));
+}
+function s2(l){
+ slide(E('s2title'),l,0,-30,.35);
+ // título troca
+ const sw=seg(l,3.9,4.3);
+ E('s2title').textContent=l<4.0?'40 min de vídeo':'5 min de conteúdo';
+ E('s2title').style.color=l<4.0?'#fff':'var(--g)';
+ if(l>=4.0)pop(E('s2title'),l,4.0,{d:.4,from:.8});
+ const tm=l<4.0?lerp(0,40*60,eio(seg(l,.2,3.4))):lerp(40*60,5*60,eio(seg(l,3.6,4.6)));
+ E('s2timer').textContent=mmss(tm);E('s2timer').style.color=l<4.2?'var(--r)':'var(--g)';
+ const dim=seg(l,3.6,4.6);E('s2feedwrap').style.opacity=lerp(1,.18,dim);
+ const sc=eo(seg(l,0,5.5))*3200+l*300;tf(E('s2feed'),0,-sc);
+ TAGS.forEach((g,i)=>{const el=E('tg'+i);const p=seg(l,g[1],g[1]+.3);const out=1-seg(l,g[1]+1.4,g[1]+1.7);el.style.opacity=clamp(p*4)*out;tf(el,0,0,lerp(.4,1,bo(p)),g[4])});
+ const col=eio(seg(l,3.6,4.6));let x=0;
+ SEGS.forEach((s,i)=>{const o=s[1]/40*960;const tg=s[0]=='c'?s[1]/5*960:0;const w=lerp(o,tg,col);const el=E('sg'+i);el.style.left=x+'px';el.style.width=Math.max(w,0)+'px';x+=w});
+ pop(E('s2ok'),l,4.7,{d:.45,from:.7}); if(l<4.7)E('s2ok').style.opacity=0;
+ if(l>4.8){E('s2bar').style.boxShadow=`0 0 ${30+20*Math.sin(l*6)}px rgba(45,212,160,.6)`}
+}
+function s3(l){
+ pop(E('term'),l,0,{d:.4,from:.95,y:40});
+ typ(E('t3a'),'crie uma skill sobre prompts',l,.4,20,l<1.9);
+ typ(E('t3b'),'a partir do YouTube',l,1.7,20,l>1.7&&l<2.8);
+ E('t3c').textContent=l>2.9?(['◐','◓','◑','◒'][Math.floor(l*8)%4]+'  rodando youtube-para-skill…'):'';
+ E('s3lab').style.opacity=seg(l,3.0,3.3);
+ const nm='youtube-para-skill';const n=clamp(Math.floor((l-3.2)*13),0,nm.length);
+ E('s3name').textContent=l<3.2?'':nm.slice(0,n)+(n<nm.length?'▌':'');
+ pop(E('s3stamp'),l,5.0,{d:.4,from:2,r:-8});
+ [0,1,2,3].forEach(i=>pop(E('fl'+i),l,5.4+i*.3,{d:.35,from:.7,y:20}));
+}
+function s4(l){
+ pop(E('s4inc'),l,0,{d:.4,from:.7});
+ pop(E('s4chip'),l,1.2,{d:.4,from:.7});
+ const w=E('b4');const p=eo(seg(l,.1,.7));w.style.opacity=p;tf(w,0,60*(1-p));
+ typ(E('s4q'),'melhores prompts',l,5.7,9);
+ for(let i=0;i<3;i++){const el=E('rc'+(i+2));
+ }
+ const rs=document.querySelectorAll('#s4res .rc');
+ rs.forEach((el,i)=>{pop(el,l,7.7+i*.1,{d:.3,from:.95,y:20});if(l<7.7)el.style.opacity=0;
+  const sel=seg(l,8.3+i*.75,8.5+i*.75);
+  el.style.borderColor=sel>0?'var(--g)':'transparent';el.style.background=sel>0?'rgba(45,212,160,.12)':'transparent';});
+ const tr=seg(l,11,11.4);E('b4tr').style.opacity=tr;E('b4tr').style.display=tr>0?'block':'none';
+ E('b4trin').style.transform=`translateY(${-(l-11)*70}px)`;
+ // passos
+ const T=[[5.8,7.5],[8.0,10.0],[11.0,13.2]];
+ T.forEach((d,i)=>{const el=E('st'+i);pop(el,l,d[0],{d:.4,from:.85,y:30});if(l<d[0])el.style.opacity=0;
+  const done=seg(l,d[1],d[1]+.25);const ck=E('sk'+i);ck.style.background=done>0?'var(--g)':'transparent';ck.style.borderColor=done>0?'var(--g)':'#444';
+  ck.firstChild.style.opacity=done;
+  el.style.borderColor=done>0?'var(--g)':'var(--line)'});
+}
+function s5(l){
+ pop(E('s5lab'),l,0,{d:.3});
+ const lab=l<4.8?'TRANSCRIÇÃO BRUTA':'TRANSCRIÇÃO LIMPA';
+ E('s5lab').textContent=lab;
+ E('s5lab').style.background=l<4.8?'#2c1a22':'rgba(45,212,160,.15)';E('s5lab').style.color=l<4.8?'var(--r)':'var(--g)';E('s5lab').style.borderColor=l<4.8?'var(--r)':'var(--g)';
+ const showPanel=1-seg(l,6.2,6.6);
+ E('s5panel').style.opacity=Math.min(showPanel,seg(l,.1,.5));E('s5panel').style.display=showPanel>0?'block':'none';
+ LN.forEach((d,i)=>{
+  const ln=E('ln'+i),lt=E('lt'+i);
+  if(d[0]=='a'){
+   const k=(i-1)/2;const fl=seg(l,1.0+k*.8,1.3+k*.8);
+   lt.style.background=`rgba(255,69,96,${.22*fl})`;lt.style.color=fl>0?'#ffb3bf':'#fff';
+   E('lb'+i).style.opacity=fl;
+   const st=seg(l,3.3+k*.3,3.6+k*.3);lt.style.textDecoration=st>0?'line-through':'none';
+   const col=eio(seg(l,3.9+k*.35,4.6+k*.35));ln.style.height=lerp(96,0,col)+'px';ln.style.opacity=1-col;
+  } else {
+   const fl=seg(l,4.6,5.2);lt.style.background=`rgba(45,212,160,${.14*fl})`;
+  }
+ });
+ E('s5vid').style.opacity=seg(l,6.3,6.7);E('s5vid').style.display=l>=6.2?'block':'none';
+ if(l>=6.2){const sp=seg(l,7.2,7.6);const el=E('s5stamp');el.style.opacity=clamp(sp*4);tf(el,Math.sin(l*80)*10*(1-seg(l,7.6,8.1)),0,lerp(2.2,1,eo(sp)),-7)}
+ // stats
+ pop(E('s5stats'),l,3.0,{d:.4,from:.9,y:40});if(l<3.0)E('s5stats').style.opacity=0;
+ const pc=lerp(0,18,eo(seg(l,3.6,5.2)));E('s5pct').textContent=Math.round(pc)+'%';E('s5pb').style.width=(pc/18*18)+'%';
+ E('s5it').textContent=Math.round(lerp(0,7,eo(seg(l,4.4,6))));
+}
+function s6(l){
+ pop(E('s6file'),l,0,{d:.4,from:.95,y:30});
+ [0,1,2,3].forEach(i=>{const el=E('p'+i);el.style.opacity=seg(l,.4+i*.35,.7+i*.35)});
+ E('s6head').style.opacity=seg(l,2.2,2.6);
+ RW.forEach((r,i)=>{
+  const init=i,fin=FINAL[i];
+  const pos=lerp(init,fin,eio(seg(l,5.4,7.0)));
+  const el=E('rw'+i);
+  const ap=seg(l,2.6+i*.28,3.0+i*.28);
+  el.style.top=(520+pos*118)+'px';
+  el.style.opacity=ap*(r[1]==1?lerp(1,.35,seg(l,7.0,7.6)):1);
+  el.style.transform=`translateX(${(1-eo(ap))*80}px)`;
+  if(r[1]==1){E('rt'+i).style.textDecoration=l>7.2?'line-through':'none';E('rt'+i).style.color=l>7.2?'#777':'#fff'}
+  if(r[1]==3){const order=[2,4,3];const k=order.indexOf(i);const d=seg(l,8.2+k*.9,8.45+k*.9);
+   const ck=E('rk'+i);ck.style.background=d>0?'var(--g)':'transparent';ck.style.borderColor=d>0?'var(--g)':'#444';ck.firstChild.style.opacity=d;
+   el.style.borderColor=d>0?'var(--g)':'var(--line)'}
+ });
+ pop(E('s6leg'),l,5.0,{d:.35,from:.8,y:20});if(l<5.0)E('s6leg').style.opacity=0;
+}
+function s7(l){
+ pop(E('s7a'),l,0,{d:.4,from:.96,y:30});
+ const g='Para criar um bom prompt, seja claro e específico. Dê contexto, use exemplos e peça o formato desejado.';
+ typ(E('s7at'),g,l,.5,38,false);
+ const p=eio(seg(l,1.4,2.3));
+ const b=E('s7b');b.style.opacity=clamp(p*3);b.style.clipPath=`inset(0 0 0 ${(1-p)*100}%)`;
+ const v=E('s7vs');v.style.opacity=clamp(p*3);tf(v,0,0,lerp(.4,1,bo(seg(l,1.6,2.2))));
+ E('s7a').style.filter=`grayscale(${p*.6}) brightness(${1-p*.25})`;
+ SKL.forEach((s,i)=>{E('sl'+i).style.opacity=seg(l,2.3+i*.4,2.55+i*.4)});
+ const hi=seg(l,5.5,6);const f=E('sl7');f.style.background=hi>0?`rgba(255,214,10,${.15+.1*Math.sin(l*7)})`:'transparent';f.style.padding='0 8px';f.style.borderRadius='8px';f.style.color=hi>0?'var(--y)':'var(--g)';
+ const c2=E('s7c2');c2.style.display=l>6.2?'inline-flex':'none';pop(c2,l,6.2,{d:.35,from:.8});
+ E('s7c1').style.opacity=seg(l,2.0,2.6);
+}
+function s8(l){
+ const big=E('s8big');const p=seg(l,.2,.65);big.style.opacity=clamp(p*4);tf(big,Math.sin(l*70)*14*(l>.65?1-seg(l,.65,1.1):0),0,lerp(2.2,1,eo(p)));
+ [0,1,2].forEach(i=>pop(E('cl'+i),l,1.0+i*.45,{d:.35,from:.9,x:0,y:20}));
+ pop(E('s8note'),l,2.9,{d:.4,from:.9,y:30});
+}
+function s9(l){
+ pop(E('s9a'),l,0,{d:.4,from:1.4});pop(E('s9b'),l,.25,{d:.4,from:1.4});
+ pop(E('s9c'),l,.9,{d:.4,from:.9,y:40});
+ typ(E('s9t'),'SKILL',l,1.4,6,l<2.8);
+ const s=E('s9send');tf(s,0,0,l>2.4?1+.12*Math.abs(Math.sin(l*6)):1);
+ const d=E('s9d');const dp=seg(l,2.0,2.4);d.style.opacity=clamp(dp*3);tf(d,0,0,lerp(.6,1,bo(dp))*(1+.04*Math.sin(l*7)));
+ pop(E('s9e'),l,2.6,{d:.4,from:.9,y:20});
+ const a=E('s9arr');a.style.opacity=seg(l,3.0,3.3);tf(a,0,Math.abs(Math.sin(l*5))*24,1);
+}
+const SC=[['s1',0,3,s1],['s2',3,9,s2],['s3',9,16,s3],['s4',16,30,s4],['s5',30,42,s5],['s6',42,55,s6],['s7',55,65,s7],['s8',65,70,s8],['s9',70,75,s9]];
+function render(t){
+ tf(E('bg1'),t*8,Math.sin(t*.4)*60);tf(E('bg2'),-t*6,Math.cos(t*.35)*60);
+ E('progf').style.width=(t/75*100)+'%';
+ for(const [id,a,b,fn] of SC){
+  const el=E(id),on=t>=a&&t<b;el.style.display=on?'block':'none';
+  if(on){const l=t-a;const pin=id=='s1'?1:eo(seg(l,0,.18));const pout=id=='s9'?1:1-seg(t,b-.12,b);
+   el.style.opacity=pin*pout;fn(l);}
+ }
+ captions(t);cursor(t);
+}
+window.render=render;render(0);
+if(location.hash=='#play'){const t0=performance.now();(function f(){render(Math.min(74.99,(performance.now()-t0)/1000));requestAnimationFrame(f)})()}
+</script></body></html>
